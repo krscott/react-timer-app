@@ -1,0 +1,9 @@
+# List of console commands used to setup and manage this project
+# Add last command to this file:
+#    history | tail -2 | head -1 | cut -c 8- >> bash-history.txt
+
+npx create-react-app react-timer-app --typescript
+cd react-timer-app/
+npm install --save typescript @types/node @types/react @types/react-dom @types/jest
+npm start
+
