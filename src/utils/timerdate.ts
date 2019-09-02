@@ -52,15 +52,9 @@ export const parseDateString = (
     console.log('==============')
     console.log(input)
 
-    // If input is valid ISO date, parse directly
-    const isoDate = new Date(input)
-    if (!isNaN(isoDate.getTime())) {
-        return isoDate
-    }
-
     // Check for common date format (e.g. '9/2/2019 6:54:02 pm')
     const absDateMatch = input.match(
-        /^\s*(?:(\d{1,2})[/-](\d{1,2})(?:[/-](\d{4}))?\s+)?(\d{1,2})(?::(\d{2})(?::(\d{2}))?)?\s*(?:([ap])m?)?\s*$/i
+        /^\s*(?:(\d{1,2})[/-](\d{1,2})(?:[/-](\d{4}))?\s*)?(?:(\d{1,2})(?::(\d{2})(?::(\d{2}))?)?\s*(?:([ap])m?)?)?\s*$/i
     )
 
     if (absDateMatch) {
@@ -97,7 +91,7 @@ export const parseDateString = (
         })
         console.log({ month, day, year, hour, min, sec, ampm })
 
-        if (day !== undefined || hour != undefined) {
+        if (!isNaN(day) || !isNaN(hour)) {
             const out = new Date(reference.getTime())
 
             if (!isNaN(year)) {
@@ -117,12 +111,18 @@ export const parseDateString = (
                 } else {
                     out.setHours(hour)
                 }
-            }
-            if (!isNaN(min)) {
-                out.setMinutes(min)
-            }
-            if (!isNaN(sec)) {
-                out.setSeconds(sec)
+
+                if (!isNaN(min)) {
+                    out.setMinutes(min)
+                }
+                if (!isNaN(sec)) {
+                    out.setSeconds(sec)
+                }
+            } else {
+                // If no time is given, set to midnight
+                out.setHours(0)
+                out.setMinutes(0)
+                out.setSeconds(0)
             }
 
             console.log(out.toUTCString())
@@ -135,7 +135,7 @@ export const parseDateString = (
 
     // Check for relative date format (e.g. '1y 5w 2d 3h 45m 20s')
     const relDateMatch = input.match(
-        /^\s*(?:(-?\d+)y\s*)?(?:(-?\d+)w\s*)?(?:(-?\d+)d\s*)?(?:(-?\d+)h\s*)?(?:(-?\d+)m\s*)?(?:(-?\d+)s\s*)?$/i
+        /^\s*(?:(\d+)y\s*)?(?:(\d+)w\s*)?(?:(\d+)d\s*)?(?:(\d+)h\s*)?(?:(\d+)m\s*)?(?:(\d+)s\s*)?$/i
     )
 
     if (relDateMatch) {
@@ -192,6 +192,6 @@ export const parseDateString = (
         }
     }
 
-    // Return invalid date
-    return new Date('')
+    // If input is valid ISO date, return date, else return invalid date
+    return new Date(input)
 }

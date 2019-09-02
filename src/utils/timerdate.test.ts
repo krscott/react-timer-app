@@ -20,6 +20,9 @@ test('parseDateString()', () => {
     expect(parseDateString('9/12 8pm', ref).getTime()).toBe(
         time('2019-09-12 8:00 pm')
     )
+    expect(parseDateString('9/12', ref).getTime()).toBe(
+        time('2019-09-12 00:00')
+    )
     expect(parseDateString('9:30pm', ref).getTime()).toBe(
         time('2019-09-01 9:30 pm')
     )
