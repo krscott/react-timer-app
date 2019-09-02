@@ -44,3 +44,54 @@ export const timeUntilDate = (date: Date) => {
 
     return `Done!`
 }
+
+export const parseDateString = (
+    input: string,
+    reference: Date = new Date()
+) => {
+    // If input is valid ISO date, parse directly
+    const isoDate = new Date(input)
+    if (!isNaN(isoDate.getTime())) {
+        return isoDate
+    }
+
+    const absDateMatch = input.match(
+        /(\d{1,2})[/-](\d{1,2})\s+(\d{1,2})\s*([ap])m?/
+    )
+
+    if (absDateMatch) {
+        console.log(input)
+        console.log(absDateMatch)
+
+        const [ , monthStr, dayStr, hourStr, ampm ] = absDateMatch
+
+        const month = parseInt(monthStr)
+        const day = parseInt(dayStr)
+        const hour = parseInt(hourStr)
+
+        console.log({ month, day, hour, ampm })
+
+        const out = new Date(reference.getTime())
+        if (!isNaN(month)) {
+            out.setMonth(month - 1)
+        }
+        if (!isNaN(day)) {
+            out.setDate(day)
+        }
+        if (!isNaN(hour)) {
+            if (ampm === 'a') {
+                out.setHours(hour === 12 ? 0 : hour)
+            } else if (ampm === 'p') {
+                out.setHours(hour + 12)
+            } else {
+                out.setHours(hour)
+            }
+        }
+
+        console.log(out.toUTCString())
+        return out
+    }
+
+    // Return invalid date
+    return new Date('')
+}

@@ -82,19 +82,6 @@ const AddTimerForm: React.FC<AddTimerFormProps> = ({
                     })
                 }}
             />
-            {/* <input
-                className="AddTimerFormDate"
-                type="date"
-                value={day}
-                onChange={(e) => setDay(e.target.value)}
-            />
-            <input
-                className="AddTimerFormTime"
-                type="time"
-                step="1"
-                value={time}
-                onChange={(e) => setTime(e.target.value)}
-            /> */}
             <input className="AddTimerFormSubmit" type="submit" value="✓" />
         </form>
     )
@@ -112,14 +99,6 @@ const TimerList: React.FC = () => {
     const previewTimer = (previewTimer: TimerProps) => {
         console.log(previewTimer.date)
         setPreview(previewTimer)
-    }
-
-    const isValidFutureTimer = (timer: TimerProps) => {
-        if (!timer || !timer.date) {
-            return false
-        }
-
-        return timer.date > new Date()
     }
 
     const previewTimerItem = (timer: TimerProps | undefined) => {
