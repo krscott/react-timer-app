@@ -3,6 +3,7 @@ import {
     timeUntilDate,
     defaultDateString,
     defaultTimeString,
+    parseDateString,
 } from '../utils/timerdate'
 import './TimerList.css'
 
@@ -45,11 +46,17 @@ const AddTimerForm: React.FC<AddTimerFormProps> = ({
         onAddTimerItem({
             id: Math.random(),
             name: nameInput ? nameInput : 'Timer',
-            date: new Date(`${timeInput}`),
+            date: parseDateString(timeInput),
         })
 
         setNameInput('')
         setTimeInput('')
+
+        onPreviewTimerItem({
+            id: 0,
+            name: '',
+            date: parseDateString(''),
+        })
 
         return false
     }
@@ -65,7 +72,7 @@ const AddTimerForm: React.FC<AddTimerFormProps> = ({
                     onPreviewTimerItem({
                         id: 0,
                         name: e.target.value,
-                        date: new Date(timeInput),
+                        date: parseDateString(timeInput),
                     })
                 }}
             />
@@ -78,7 +85,7 @@ const AddTimerForm: React.FC<AddTimerFormProps> = ({
                     onPreviewTimerItem({
                         id: 0,
                         name: nameInput,
-                        date: new Date(e.target.value),
+                        date: parseDateString(e.target.value),
                     })
                 }}
             />
