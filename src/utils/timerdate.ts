@@ -148,3 +148,31 @@ export const parseDateString = (
     // If input is valid ISO date, return date, else return invalid date
     return new Date(input)
 }
+
+export const isValidDate = (date: Date) => {
+    return date && date.getTime && !isNaN(date.getTime())
+}
+
+export const splitLabelDate = (input: string, reference: Date = new Date()) => {
+    const words = input.split(/\s+/)
+
+    let out: [string, Date]
+
+    loop: {
+        for (let i = 0; i < words.length; ++i) {
+            const testDate = parseDateString(
+                words.slice(i).join(' '),
+                reference
+            )
+            if (isValidDate(testDate)) {
+                out = [ words.slice(0, i).join(' '), testDate ]
+                break loop
+            }
+        }
+
+        // else, if no valid date is found
+        out = [ input, new Date('') ]
+    }
+
+    return out
+}
