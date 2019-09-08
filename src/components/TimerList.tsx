@@ -2,29 +2,37 @@ import React, { useState } from 'react'
 import { TimerItem, TimerProps } from './TimerItem'
 import { AddTimerForm } from './AddTimerForm'
 import './TimerList.css'
+import { isValidDate, splitLabelDate } from '../utils/timerdate'
 
 const TimerList: React.FC = () => {
-    const [ preview, setPreview ] = useState<TimerProps>()
+    const [ preview, setPreview ] = useState('')
     const [ timers, setTimers ] = useState<TimerProps[]>([])
 
     const addTimer = (newTimer: TimerProps) => {
         setTimers([ ...timers, newTimer ])
     }
 
-    const previewTimer = (previewTimer: TimerProps) => {
+    const previewTimer = (previewTimer: string) => {
         setPreview(previewTimer)
     }
 
-    const previewTimerItem = (timer: TimerProps | undefined) => {
-        if (!timer || !timer.date || isNaN(timer.date.getTime())) {
+    const previewTimerItem = (timerString: string) => {
+        const [ name, date ] = splitLabelDate(timerString)
+
+        if (!isValidDate(date)) {
             return <div>...</div>
         }
 
-        if (timer.date <= new Date()) {
+        if (date <= new Date()) {
             return <div>Past time</div>
         }
 
-        return <TimerItem key={0} timer={timer} />
+        // Add ~100ms to prevent update glitches
+        date.setMilliseconds(date.getMilliseconds() + 100)
+
+        const previewTimer = { id: 0, name, date }
+
+        return <TimerItem key={0} timer={previewTimer} />
     }
 
     return (

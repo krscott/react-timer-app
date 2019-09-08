@@ -5,7 +5,7 @@ import './AddTimerForm.css'
 
 interface AddTimerFormProps {
     onAddTimerItem: (props: TimerProps) => void
-    onPreviewTimerItem: (props: TimerProps) => void
+    onPreviewTimerItem: (props: string) => void
 }
 
 export const AddTimerForm: React.FC<AddTimerFormProps> = ({
@@ -26,12 +26,7 @@ export const AddTimerForm: React.FC<AddTimerFormProps> = ({
         })
 
         setFormInput('')
-
-        onPreviewTimerItem({
-            id: 0,
-            name: '',
-            date: parseDateString(''),
-        })
+        onPreviewTimerItem('')
 
         return false
     }
@@ -44,12 +39,7 @@ export const AddTimerForm: React.FC<AddTimerFormProps> = ({
                 value={formInput}
                 onChange={(e) => {
                     setFormInput(e.target.value)
-                    const [ name, date ] = splitLabelDate(e.target.value)
-                    onPreviewTimerItem({
-                        id: 0,
-                        name,
-                        date,
-                    })
+                    onPreviewTimerItem(e.target.value)
                 }}
             />
             <input className="AddTimerFormSubmit" type="submit" value="✓" />
