@@ -75,9 +75,13 @@ export const parseDateString = (
 
                 if (!isNaN(min)) {
                     out.setMinutes(min)
+                } else {
+                    out.setMinutes(0)
                 }
                 if (!isNaN(sec)) {
                     out.setSeconds(sec)
+                } else {
+                    out.setSeconds(0)
                 }
             } else {
                 // If no time is given, set to midnight
@@ -85,6 +89,8 @@ export const parseDateString = (
                 out.setMinutes(0)
                 out.setSeconds(0)
             }
+
+            out.setMilliseconds(0)
 
             if (!isNaN(out.getTime())) {
                 return out

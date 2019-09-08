@@ -3,7 +3,7 @@ import { parseDateString, isValidDate, splitLabelDate } from './timerdate'
 test('parseDateString()', () => {
     const time = (s: string) => new Date(s).getTime()
 
-    const ref = new Date('2019-09-01 7:00 pm')
+    const ref = new Date('2019-09-01 7:12:34 pm')
 
     // Bad formatting returns invalid date
     expect(parseDateString('', ref).getTime()).toBeNaN()
@@ -45,25 +45,25 @@ test('parseDateString()', () => {
     // Relative date format
 
     expect(parseDateString('20s', ref).getTime()).toBe(
-        time('2019-09-01 7:00:20 pm')
+        time('2019-09-01 7:12:54 pm')
     )
     expect(parseDateString('20m', ref).getTime()).toBe(
-        time('2019-09-01 7:20 pm')
+        time('2019-09-01 7:32:34 pm')
     )
     expect(parseDateString('1h', ref).getTime()).toBe(
-        time('2019-09-01 8:00 pm')
+        time('2019-09-01 8:12:34 pm')
     )
     expect(parseDateString('1d', ref).getTime()).toBe(
-        time('2019-09-02 7:00 pm')
+        time('2019-09-02 7:12:34 pm')
     )
     expect(parseDateString('1w', ref).getTime()).toBe(
-        time('2019-09-08 7:00 pm')
+        time('2019-09-08 7:12:34 pm')
     )
     expect(parseDateString('1y', ref).getTime()).toBe(
-        time('2020-09-01 7:00 pm')
+        time('2020-09-01 7:12:34 pm')
     )
     expect(parseDateString('1y2w 3d 4h5m 6s', ref).getTime()).toBe(
-        time('2020-09-18 11:05:06 pm')
+        time('2020-09-18 11:17:40 pm')
     )
 })
 
