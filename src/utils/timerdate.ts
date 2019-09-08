@@ -49,17 +49,12 @@ export const parseDateString = (
     input: string,
     reference: Date = new Date()
 ) => {
-    console.log('==============')
-    console.log(input)
-
     // Check for common date format (e.g. '9/2/2019 6:54:02 pm')
     const absDateMatch = input.match(
         /^\s*(?:(\d{1,2})[/-](\d{1,2})(?:[/-](\d{4}))?\s*)?(?:(\d{1,2})(?::(\d{2})(?::(\d{2}))?)?\s*(?:([ap])m?)?)?\s*$/i
     )
 
     if (absDateMatch) {
-        console.log(absDateMatch)
-
         const [
             ,
             monthStr,
@@ -79,17 +74,6 @@ export const parseDateString = (
             minStr,
             secStr,
         ].map((s) => parseInt(s))
-
-        console.log({
-            monthStr,
-            dayStr,
-            yearStr,
-            hourStr,
-            minStr,
-            secStr,
-            ampm,
-        })
-        console.log({ month, day, year, hour, min, sec, ampm })
 
         if (!isNaN(day) || !isNaN(hour)) {
             const out = new Date(reference.getTime())
@@ -125,8 +109,6 @@ export const parseDateString = (
                 out.setSeconds(0)
             }
 
-            console.log(out.toUTCString())
-
             if (!isNaN(out.getTime())) {
                 return out
             }
@@ -139,8 +121,6 @@ export const parseDateString = (
     )
 
     if (relDateMatch) {
-        console.log(relDateMatch)
-
         const [
             ,
             yearsStr,
@@ -159,8 +139,6 @@ export const parseDateString = (
             minsStr,
             secsStr,
         ].map((s) => parseInt(s))
-
-        console.log({ years, weeks, days, hours, mins, secs })
 
         if ([ years, weeks, days, hours, mins, secs ].some((x) => !isNaN(x))) {
             const out = new Date(reference.getTime())
@@ -183,8 +161,6 @@ export const parseDateString = (
             if (!isNaN(secs)) {
                 out.setSeconds(out.getSeconds() + secs)
             }
-
-            console.log(out.toUTCString())
 
             if (!isNaN(out.getTime())) {
                 return out

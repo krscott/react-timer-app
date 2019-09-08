@@ -62,7 +62,7 @@ test('parseDateString()', () => {
     expect(parseDateString('1y', ref).getTime()).toBe(
         time('2020-09-01 7:00 pm')
     )
-    expect(parseDateString('1y 2w 3d 4h 5m 6s', ref).getTime()).toBe(
+    expect(parseDateString('1y2w 3d 4h5m 6s', ref).getTime()).toBe(
         time('2020-09-18 11:05:06 pm')
     )
 })
