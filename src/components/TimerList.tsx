@@ -9,7 +9,7 @@ const TimerList: React.FC = () => {
     const [ timers, setTimers ] = useState<TimerProps[]>([])
 
     const addTimer = (newTimer: TimerProps) => {
-        setTimers([ ...timers, newTimer ])
+        setTimers([ newTimer, ...timers ])
     }
 
     const previewTimer = (previewTimer: string) => {
