@@ -1,4 +1,4 @@
-import React, { useState, SyntheticEvent } from 'react'
+import React from 'react'
 import { timeUntilDate } from '../utils/timerdate'
 import './TimerItem.css'
 
@@ -13,9 +13,13 @@ interface TimerItemProps {
 }
 
 export const TimerItem: React.FC<TimerItemProps> = ({ timer }) => {
+    // Title text appears when user hovers mouse over element
+    const dateTitle = `${timer.date.toDateString()} ${timer.date.toTimeString()}`
+
     return (
-        <div className="TimerItem">
-            <span>{timer.name} </span>
+        <div className="TimerItem" title={dateTitle}>
+            <span>{timer.name}</span>
+            <span> ⏰ </span>
             <span>{timeUntilDate(timer.date)}</span>
         </div>
     )
