@@ -1,5 +1,5 @@
 import React, { useState, SyntheticEvent } from 'react'
-import { parseDateString } from '../utils/timerdate'
+import { parseDateString, splitLabelDate } from '../utils/timerdate'
 import { TimerProps } from './TimerItem'
 import './AddTimerForm.css'
 
@@ -12,22 +12,20 @@ export const AddTimerForm: React.FC<AddTimerFormProps> = ({
     onAddTimerItem,
     onPreviewTimerItem,
 }) => {
-    const [ nameInput, setNameInput ] = useState('')
-    const [ timeInput, setTimeInput ] = useState('')
-    // const [ day, setDay ] = useState(defaultDateString())
-    // const [ time, setTime ] = useState(defaultTimeString())
+    const [ formInput, setFormInput ] = useState('')
 
     const onSubmit = (e: SyntheticEvent) => {
         e.preventDefault()
 
+        const [ name, date ] = splitLabelDate(formInput)
+
         onAddTimerItem({
             id: Math.random(),
-            name: nameInput ? nameInput : 'Timer',
-            date: parseDateString(timeInput),
+            name,
+            date,
         })
 
-        setNameInput('')
-        setTimeInput('')
+        setFormInput('')
 
         onPreviewTimerItem({
             id: 0,
@@ -41,28 +39,16 @@ export const AddTimerForm: React.FC<AddTimerFormProps> = ({
     return (
         <form className="AddTimerForm" onSubmit={onSubmit}>
             <input
-                className="AddTimerFormName"
-                placeholder="Name"
-                value={nameInput}
+                className="AddTimerFormInput"
+                placeholder="Go to bed 10pm"
+                value={formInput}
                 onChange={(e) => {
-                    setNameInput(e.target.value)
+                    setFormInput(e.target.value)
+                    const [ name, date ] = splitLabelDate(e.target.value)
                     onPreviewTimerItem({
                         id: 0,
-                        name: e.target.value,
-                        date: parseDateString(timeInput),
-                    })
-                }}
-            />
-            <input
-                className="AddTimerFormTime"
-                placeholder="9/1 12pm"
-                value={timeInput}
-                onChange={(e) => {
-                    setTimeInput(e.target.value)
-                    onPreviewTimerItem({
-                        id: 0,
-                        name: nameInput,
-                        date: parseDateString(e.target.value),
+                        name,
+                        date,
                     })
                 }}
             />
